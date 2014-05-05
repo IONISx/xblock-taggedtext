@@ -154,6 +154,9 @@ class TaggedTextXBlock(XBlock):
         return frag
 
 
+    def studio_view(self, context):
+        return Fragment(u'Studio view body')
+
     @XBlock.json_handler
     def select_category(self, data, suffix=''):
         category = data.get('value')

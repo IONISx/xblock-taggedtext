@@ -1,0 +1,51 @@
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
+
+<style>
+  body {
+    font-size: 16px;
+  }
+</style>
+
+<div class="taggedtext_block">
+  <section class="categories">
+    <table>
+      {% for c in categories %}
+        <tr>
+          <td class="color">
+            <span style="background-color: {{ categories[c].color }};"></span>
+          </td>
+          <td class="title">
+            {{ categories[c].name }}
+          </td>
+          <td>
+            {{ categories[c].description }}
+          </td>
+        </tr>
+      {% endfor %}
+    </table>
+  </section>
+  <section class="text">
+    {% for e in rich_text %}
+      {% if e.type == 'text' %}
+        {{ e.text | safe }}
+      {% elif e.type == 'keyword' %}
+        <div class="tag" data-position="{{ e.position }}" {% if keywords[e.position].answer %}style="background-color: {{ categories[keywords[e.position].answer].color }}"{% endif %}>
+          {{ keywords[e.position].text }}
+          <span class="arrow"><i class="icon-caret-down"></i></span>
+          <ul class="dropdown">
+            {% for c in categories %}
+              <li data-id="{{ c }}">
+                <span class="color" style="background-color: {{ categories[c].color }}"></span> {{ categories[c].name }}
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </section>
+
+  <section class="action">
+    <input class="check" type="button" data-checking="Checking..." value="Valider">
+</div>
+</div>

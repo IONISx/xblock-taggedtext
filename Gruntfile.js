@@ -4,8 +4,7 @@ module.exports = function (grunt) {
     require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
 
     var config = {
-        'static': 'taggedtext/static',
-        bower: 'bower_components'
+        'static': 'taggedtext/static'
     };
 
     grunt.initConfig({

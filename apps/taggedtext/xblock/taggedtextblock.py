@@ -1,5 +1,3 @@
-"""TO-DO: Write a description of what this XBlock is."""
-
 import json
 
 from copy import deepcopy
@@ -155,7 +153,9 @@ class TaggedTextXBlock(XBlock):
 
 
     def studio_view(self, context):
-        return Fragment(u'Studio view body')
+        template = Template(self.resource_string("static/html/taggedtext.html")).render({})
+        frag = Fragment(template)
+        return frag
 
     @XBlock.json_handler
     def select_category(self, data, suffix=''):

@@ -3,6 +3,9 @@
 import os
 from setuptools import setup
 
+PACKAGES = [
+    'taggedtext'
+]
 
 def package_data(pkg, root):
     """Generic function to find package_data for `pkg` under `root`."""
@@ -16,18 +19,18 @@ def package_data(pkg, root):
 
 setup(
     name='taggedtext-xblock',
-    version='0.1',
-    description='taggedtext XBlock',
-    packages=[
-        'taggedtext',
-    ],
+    version='0.0.1',
+    description='Tagged Text XBlock',
+    author='IONISx',
+    packages=PACKAGES,
+    package_dir={'': 'apps'},
     install_requires=[
         'XBlock',
     ],
     entry_points={
         'xblock.v1': [
-            'taggedtext = taggedtext:TaggedTextXBlock',
+            'taggedtext = taggedtext.xblock.taggedtextblock:TaggedTextXBlock',
         ]
     },
-    package_data=package_data("taggedtext", "static"),
+    package_data=package_data("taggedtext.xblock", "static"),
 )

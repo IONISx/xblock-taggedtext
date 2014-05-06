@@ -1,7 +1,6 @@
-/* CSS for TaggedTextXBlock */
-
 .taggedtext_block table {
     border: 1px solid #ddd;
+    border-collapse: collapse;
     margin-bottom: 20px;
 }
 

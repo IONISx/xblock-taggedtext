@@ -17,7 +17,7 @@ class StudioMixin(object):
         """
         template = render_template('templates/studio.html')
         frag = Fragment(template)
-        frag.add_javascript(load_resource('static/js/xblock-taggedtext.min.js'))
+        frag.add_javascript(load_resource('static/script/xblock-taggedtext.min.js'))
         frag.initialize_js('TaggedTextXBlockStudio');
         return frag
 

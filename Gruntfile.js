@@ -15,7 +15,7 @@ module.exports = function (grunt) {
 
         watch: {
             uglify: {
-                files: ['<%= c.static %>/js/src/**/*.js'],
+                files: ['<%= c.static %>/script/src/**/*.js'],
                 tasks: ['uglify']
             }
         },
@@ -42,7 +42,7 @@ module.exports = function (grunt) {
             browser: {
                 files: {
                     src: [
-                        '<%= c.static %>/js/src/**/*.js'
+                        '<%= c.static %>/script/src/**/*.js'
                     ]
                 },
                 options: {
@@ -64,9 +64,10 @@ module.exports = function (grunt) {
                     report: 'min'
                 },
                 files: {
-                    '<%= c.static %>/js/xblock-taggedtext.min.js': [
-                        '<%= c.static %>/js/src/main.js',
-                        '<%= c.static %>/js/src/studio.js'
+                    '<%= c.static %>/script/xblock-taggedtext.min.js': [
+                        '<%= c.static %>/script/src/main.js',
+                        '<%= c.static %>/script/src/studio.js',
+                        '<%= c.static %>/script/src/xblock.js'
                     ]
                 }
             }

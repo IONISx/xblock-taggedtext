@@ -49,7 +49,7 @@ module.exports = function (grunt) {
                     'jquery': true,
                     'globals': {
                         'CodeMirror': true,
-                        'TaggedTextXBlock': true
+                        'TaggedText': true
                     }
                 }
             }

@@ -10,11 +10,12 @@ from xblock.core import XBlock
 from xblock.fields import Scope, List, Dict, String, Integer
 from xblock.fragment import Fragment
 
+from taggedtext.studio_mixin import StudioMixin
 
-class TaggedTextXBlock(XBlock):
-    """
-    TO-DO: document what your XBlock does.
-    """
+
+class TaggedTextXBlock(
+    XBlock,
+    StudioMixin):
 
     has_score = True
     icon_class = 'problem'
@@ -149,12 +150,6 @@ class TaggedTextXBlock(XBlock):
         frag.add_css(self.resource_string("static/css/taggedtext.css"))
         frag.add_javascript(self.resource_string("static/js/src/taggedtext.js"))
         frag.initialize_js('TaggedTextXBlock')
-        return frag
-
-
-    def studio_view(self, context):
-        template = Template(self.resource_string("static/html/taggedtext.html")).render({})
-        frag = Fragment(template)
         return frag
 
     @XBlock.json_handler

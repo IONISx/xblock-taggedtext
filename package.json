@@ -1,0 +1,19 @@
+{
+  "name": "xblock-taggedtext",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/IONISx/xblock-taggedtext.git"
+  },
+  "bugs": {
+    "url": "https://github.com/IONISx/xblock-taggedtext/issues"
+  },
+  "homepage": "https://github.com/IONISx/xblock-taggedtext",
+  "devDependencies": {
+    "grunt": "^0.4.4",
+    "grunt-contrib-jshint": "^0.10.0",
+    "grunt-contrib-uglify": "^0.4.0",
+    "grunt-contrib-watch": "^0.6.1",
+    "matchdep": "^0.3.0"
+  }
+}

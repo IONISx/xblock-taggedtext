@@ -23,14 +23,13 @@ setup(
     description='Tagged Text XBlock',
     author='IONISx',
     packages=PACKAGES,
-    package_dir={'': 'apps'},
     install_requires=[
         'XBlock',
     ],
     entry_points={
         'xblock.v1': [
-            'taggedtext = taggedtext.xblock.taggedtextblock:TaggedTextXBlock',
+            'taggedtext = taggedtext.taggedtextblock:TaggedTextXBlock',
         ]
     },
-    package_data=package_data("taggedtext.xblock", "static"),
+    package_data=package_data("taggedtext", "static"),
 )

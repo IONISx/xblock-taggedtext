@@ -31,7 +31,7 @@
     <section class="text">
       {% for fragment in fragments %}
       {% if fragment.type == 'keyword' %}
-      <div class="keyword" data-position="{{ fragment.position }}" {% if fragment.answer %}style="background-color: {{ 'red' }}"{% endif %}>
+      <div class="keyword" data-position="{{ fragment.position }}" {% if fragment.answer %}style="background-color: {{ fragment.color }}"{% endif %}>
           {{ fragment.text }}
           <span class="arrow"><i class="icon-caret-down"></i></span>
           <ul class="dropdown">

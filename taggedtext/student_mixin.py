@@ -29,19 +29,20 @@ class StudentMixin(object):
         when viewing courses.
         """
 
-        fragments = deepcopy(self.fragments)
-
-        for f in [f for f in fragments if f['type'] == 'keyword']:
-            answer = self.student_answer.get(str(f['position']))
-            if answer:
-                f['answer'] = answer
-
         categories = deepcopy(self.categories)
         categories_count = len(categories)
 
         for i, c in enumerate(categories):
             if not 'color' in c:
                 c['color'] = self.generate_color(i, categories_count)
+
+        fragments = deepcopy(self.fragments)
+
+        for f in [f for f in fragments if f['type'] == 'keyword']:
+            answer = self.student_answer.get(str(f['position']))
+            if answer:
+                f['answer'] = answer
+                f['color'] = next((c for c in categories if c['id'] == answer))['color']
 
         data = {
             'fragments': fragments,

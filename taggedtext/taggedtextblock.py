@@ -17,33 +17,35 @@ class TaggedTextXBlock(
     XBlock,
     StudioMixin):
 
-    has_score = True
-    icon_class = 'problem'
+    title = String(
+        default="",
+        scope=Scope.content,
+        help="Title of the block (plain text)"
+    )
 
-    categories = Dict(
+    default_score = Integer(
+        default=1,
+        scope=Scope.content,
+        help="Default score for a point"
+    )
+
+    categories = List(
         scope=Scope.content,
         help="Categories"
     )
 
-    rich_text = List(
+    fragments = List(
         scope=Scope.content,
-        help="Text that will be tagged later on"
-    )
-
-    keywords = List(
-        scope=Scope.content,
-        help="List of keywords"
-    )
-
-    default_score = Integer(
-        default=1, scope=Scope.content,
-        help="Default score for a point"
+        help="Fragments"
     )
 
     student_answer = Dict(
         scope=Scope.user_state,
         help="Student answers"
     )
+
+    has_score = True
+    icon_class = 'problem'
 
     @classmethod
     def parse_xml(cls, node, runtime, keys, id_generator):
@@ -173,6 +175,7 @@ class TaggedTextXBlock(
              """
 <vertical_demo>
   <taggedtext>
+    <title>Sample TaggedText block</title>
     <categories>
       <category id="la">Latin</category>
       <category id="en">English</category>
@@ -180,19 +183,15 @@ class TaggedTextXBlock(
       <category id="ru">Russian</category>
     </categories>
     <text>
-      <p>
        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut arcu
        nisl, <keyword category="la">luctus</keyword> vel tellus <keyword
        category="la" score="4">id</keyword>, sagittis euismod
-       nulla.<br/>
-      </p>
-      <p>
+       nulla.
        Phasellus quam magna, sagittis non justo ac, viverra
        <keyword category="en">house</keyword> ipsum. Sed bibendum arcu
        et sapien elementum ultricies. <keyword
        category="en">Because</keyword> semper sollicitudin nunc vitae
        pharetra.<keyword category="en">nothing</keyword>
-      </p>
     </text>
   </taggedtext>
 </vertical_demo>""") ]

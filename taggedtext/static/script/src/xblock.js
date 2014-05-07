@@ -2,7 +2,8 @@
 
 function TaggedTextXBlockStudio(runtime, element) {
     $(function () {
-        var view = new TaggedText.StudioView(runtime);
+        var server = new TaggedText.Server(runtime, element);
+        var view = new TaggedText.StudioView(server, runtime);
         view.render(element);
     });
 }

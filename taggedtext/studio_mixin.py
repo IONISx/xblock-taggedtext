@@ -1,8 +1,9 @@
 """
-Studio editing view for Tagged Text XBlock
+Studio editing view for TaggedText XBlock
 """
 
 from taggedtext.utils import load_resource, render_template
+from taggedtext.xml import update_from_xml_str, serialize_content, UpdateFromXmlError, ValidationError
 from xblock.core import XBlock
 from xblock.fragment import Fragment
 
@@ -29,7 +30,7 @@ class StudioMixin(object):
         """
         if 'xml' in data:
             try:
-                update_from_xml_str(self, data['xml'], validator=validator(self))
+                update_from_xml_str(self, data['xml'])
 
             except ValidationError as ex:
                 return {'success': False, 'msg': 'Validation error: {error}'.format(error=ex.message)}
@@ -38,7 +39,7 @@ class StudioMixin(object):
                 return {'success': False, 'msg': 'An error occurred while saving: {error}'.format(error=ex.message)}
 
             else:
-                return {'success': True, 'msg': 'Successfully updated OpenAssessment XBlock'}
+                return {'success': True, 'msg': 'Successfully updated TaggedText XBlock'}
 
         else:
             return {'success': False, 'msg': 'Must specify "xml" in request JSON dict.'}
@@ -52,7 +53,7 @@ class StudioMixin(object):
         try:
             xml = serialize_content(self)
         except Exception as ex:
-            msg = 'An unexpected error occurred while loading the problem: {error}'.format(error=ex.message)
+            msg = 'An unexpected error occurred while loading the problem: {error}'.format(error=ex)
             return {'success': False, 'msg': msg, 'xml': u''}
         else:
             return {'success': True, 'msg': '', 'xml': xml}

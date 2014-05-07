@@ -65,6 +65,7 @@ module.exports = function (grunt) {
                 files: {
                     '<%= c.static %>/script/xblock-taggedtext.min.js': [
                         '<%= c.static %>/script/src/main.js',
+                        '<%= c.static %>/script/src/server.js',
                         '<%= c.static %>/script/src/studio.js',
                         '<%= c.static %>/script/src/xblock.js'
                     ]

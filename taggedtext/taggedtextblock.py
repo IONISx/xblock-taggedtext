@@ -56,9 +56,6 @@ class TaggedTextXBlock(
 
         return update_from_xml(block, node)
 
-    @classmethod
-    def generate_color(cls, text, pos, count):
-        return 'hsl({}, 62%, 82%)'.format((pos) * (255 / count))
 
     @XBlock.json_handler
     def select_category(self, data, suffix=''):

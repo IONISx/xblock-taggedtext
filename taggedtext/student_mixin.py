@@ -19,6 +19,9 @@ class StudentMixin(object):
         help="Student answers"
     )
 
+    def generate_color(self, pos, count):
+        return 'hsl({}, 62%, 82%)'.format((pos) * (255 / count))
+
     def student_view(self, context=None):
         """
         The primary view of the TaggedTextXBlock, shown to students
@@ -26,14 +29,22 @@ class StudentMixin(object):
         """
 
         fragments = deepcopy(self.fragments)
+
         for f in [f for f in fragments if f['type'] == 'keyword']:
             answer = self.student_answer.get(str(f['position']))
             if answer:
                 f['answer'] = answer
 
+        categories = deepcopy(self.categories)
+        categories_count = len(categories)
+
+        for i, c in enumerate(categories):
+            if not 'color' in c:
+                c['color'] = self.generate_color(i, categories_count)
+
         data = {
             'fragments': fragments,
-            'categories': self.categories,
+            'categories': categories,
             'title': self.title,
             'prompt': self.prompt
         }

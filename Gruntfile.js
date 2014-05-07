@@ -16,6 +16,10 @@ module.exports = function (grunt) {
             uglify: {
                 files: ['<%= c.static %>/script/src/**/*.js'],
                 tasks: ['uglify']
+            },
+            less: {
+                files: ['<%= c.static %>/style/src/**/*.less'],
+                tasks: ['less', 'cssmin']
             }
         },
 
@@ -71,20 +75,45 @@ module.exports = function (grunt) {
                     ]
                 }
             }
+        },
+
+        // ## //
+
+        less: {
+            style: {
+                files: {
+                    '<%= c.static %>/style/xblock-taggedtext.min.css': '<%= c.static %>/style/src/main.less'
+                }
+            }
+        },
+
+        // ## //
+
+        cssmin: {
+            style: {
+                options: {
+                    report: 'min'
+                },
+                files: {
+                    '<%= c.static %>/style/xblock-taggedtext.min.css': '<%= c.static %>/style/xblock-taggedtext.min.css'
+                }
+            }
         }
     });
+
+    grunt.registerTask('build', [
+        'jshint:browser',
+        'uglify',
+        'less',
+        'cssmin'
+    ]);
 
     grunt.registerTask('default', function () {
         grunt.option('force', true);
 
         grunt.task.run([
-            'uglify',
+            'build',
             'watch'
         ]);
     });
-
-    grunt.registerTask('build', [
-        'jshint:browser',
-        'uglify'
-    ]);
 };

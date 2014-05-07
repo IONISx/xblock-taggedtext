@@ -1,0 +1,53 @@
+{% load i18n %}
+{% spaceless %}
+
+<div class="wrapper wrapper--xblock wrapper--taggedtext">
+  <div class="taggedtext">
+    <table class="categories">
+      {% for category in categories %}
+      <tr>
+        <td class="color">
+          <span style="background-color: {{ category.color }};"></span>
+        </td>
+        <td class="name">
+          {{ category.name }}
+        </td>
+        {% if category.description %}
+        <td>
+          {{ category.description }}
+        </td>
+        {% endif %}
+      </tr>
+      {% empty %}
+      <tr>
+        <td>No categories defined</td>
+      </tr>
+      {% endfor %}
+    </table>
+    <hr>
+    <section class="text">
+      {% for fragment in fragments %}
+      {% if fragment.type == 'keyword' %}
+      <div class="keyword" data-position="{{ fragment.position }}" {% if fragment.answer %}style="background-color: {{ 'red' }}"{% endif %}>
+          {{ fragment.text }}
+          <span class="arrow"><i class="icon-caret-down"></i></span>
+          <ul class="dropdown">
+            {% for category in categories %}
+              <li data-id="{{ category.id }}">
+                <span class="color" style="background-color: {{ category.color }}"></span> {{ category.name }}
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% else %}
+      {{ fragment.text }}
+      {% endif %}
+      {% endfor %}
+    </section>
+    <section class="action">
+      <input class="check" type="button" data-checking="Checking..." value="Valider">
+    </section>
+  </div>
+</div>
+
+{% endspaceless %}

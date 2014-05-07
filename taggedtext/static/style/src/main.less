@@ -1,0 +1,108 @@
+@border-color: #ddd;
+
+.wrapper--taggedtext {
+    table {
+        border: 1px solid @border-color;
+        border-collapse: separate;
+        border-spacing: 0;
+        border-radius: 4px;
+        margin-bottom: 20px;
+        padding: 0.2em 0.5em;
+
+        tr {
+            td {
+                padding: 0.2em;
+                border-bottom: 1px solid @border-color;
+
+                &.color {
+                    width: 1em;
+
+                    span {
+                        display: inline-block;
+                        width: 0.9em;
+                        height: 0.9em;
+                    }
+                }
+
+                &.name {
+                    font-weight: 500;
+                }
+            }
+
+            &:last-child {
+                td {
+                    border-bottom: 0 none;
+                }
+            }
+        }
+    }
+
+    section.text {
+        .keyword {
+            display: inline-block;
+            background-color: @border-color;
+            border: 1px solid @border-color;
+            border-radius: 4px;
+            margin: 2px 0;
+            padding: 0.1em 0.3em;
+            position: relative;
+            cursor: pointer;
+
+            i {
+                font-style: normal;
+            }
+
+            .dropdown {
+                display: none;
+                transition: all 0.2s ease-in;
+                border: 1px solid @border-color;
+                border-radius: 4px;
+                position: absolute;
+                top: 1.5em;
+                right: -1px;
+                z-index: 10;
+                background: #fff;
+                list-style-type: none;
+                list-style-position: inside;
+                margin: 0;
+                padding: 0;
+
+                > li {
+                    padding: 0.2em 0.6em;
+                    whitespace: nowrap;
+
+                    .color {
+                        display: inline-block;
+                        height: 0.8em;
+                        width: 0.8em;
+                        vertical-align: baseline;
+                        margin: 0 0.3em 0 0;
+                        border: 1px solid transparent;
+                    }
+
+                    &:hover {
+                        background-color: #ddd;
+
+                        .color {
+                            border-color: #fff;
+                        }
+                    }
+                }
+            }
+
+            &.active {
+                background-color: #fff;
+                border-bottom-right-radius: 0;
+                border-bottom-left-radius: 0;
+
+                .dropdown {
+                    border-top-right-radius: 0;
+                }
+            }
+        }
+    }
+
+    section.action {
+        margin-top: 20px;
+    }
+}

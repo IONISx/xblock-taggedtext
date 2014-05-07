@@ -41,7 +41,7 @@ TaggedText.Server.prototype = {
 
         return $.Deferred(function (defer) {
             $.ajax({
-                type: "POST",
+                type: 'POST',
                 url: url,
                 data: JSON.stringify(null)
             }).done(function (data) {
@@ -51,7 +51,7 @@ TaggedText.Server.prototype = {
                 else {
                     defer.rejectWith(this, [data.msg]);
                 }
-            }).fail(function (data) {
+            }).fail(function () {
                 defer.rejectWith(this, ['This problem could not be loaded.']);
             });
         }).promise();

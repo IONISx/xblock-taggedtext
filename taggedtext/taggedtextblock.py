@@ -3,25 +3,32 @@ import json
 from jinja2 import Template
 from lxml import etree
 
-import pkg_resources
-
 from xblock.core import XBlock
 from xblock.fields import Scope, List, Dict, String, Integer
 from xblock.fragment import Fragment
 
-from taggedtext.lms_mixin import LmsMixin
+from taggedtext.settings_mixin import SettingsMixin
+from taggedtext.student_mixin import StudentMixin
 from taggedtext.studio_mixin import StudioMixin
+from taggedtext.xml import update_from_xml
 
 
 class TaggedTextXBlock(
     XBlock,
-    LmsMixin,
+    SettingsMixin,
+    StudentMixin,
     StudioMixin):
 
     title = String(
         default="",
         scope=Scope.content,
         help="Title of the block (plain text)"
+    )
+
+    prompt = String(
+        default="",
+        scope=Scope.content,
+        help="Prompt of the block (plain text)"
     )
 
     default_score = Integer(
@@ -40,49 +47,18 @@ class TaggedTextXBlock(
         help="Fragments"
     )
 
-    student_answer = Dict(
-        scope=Scope.user_state,
-        help="Student answers"
-    )
+    @classmethod
+    def parse_xml(cls, node, runtime, keys, id_generator):
+        """
+        Instantiate XBlock object from runtime XML definition.
+        """
+        block = runtime.construct_xblock_from_class(cls, keys)
 
-    has_score = True
-    icon_class = 'problem'
-
-    # @classmethod
-    # def parse_xml(cls, node, runtime, keys, id_generator):
-    #     block = runtime.construct_xblock_from_class(cls, keys)
-
-    #     for child in node:
-    #         tag = child.tag.lower()
-    #         if tag == u'categories':
-    #             cls.extract_categories(block, child)
-    #         if tag == u'text':
-    #             cls.extract_keywords(block, child)
-
-    #             block.rich_text = []
-
-    #             block.rich_text.append({
-    #                 'type': 'text',
-    #                 'text': node.text
-    #             })
-
-    #             cls.extract_text(block, child)
-
-
-
-    #     print block.keywords
-    #     print block.rich_text
-    #     return block
+        return update_from_xml(block, node)
 
     @classmethod
     def generate_color(cls, text, pos, count):
         return 'hsl({}, 62%, 82%)'.format((pos) * (255 / count))
-
-    def resource_string(self, path):
-        """Handy helper for getting resources from our kit."""
-        data = pkg_resources.resource_string(__name__, path)
-        return data.decode("utf8")
-
 
     @XBlock.json_handler
     def select_category(self, data, suffix=''):
@@ -91,7 +67,6 @@ class TaggedTextXBlock(
         if category in self.categories:
             self.student_answer[keyword] = category
         return data
-
 
     @XBlock.json_handler
     def check(self, data, suffix=''):

@@ -3,6 +3,10 @@
 
 <div class="wrapper wrapper--xblock wrapper--taggedtext">
   <div class="taggedtext">
+    <h2>{{ title }}</h2>
+
+    <p class="prompt">{{ prompt }}</p>
+
     <table class="categories">
       {% for category in categories %}
       <tr>
@@ -24,7 +28,6 @@
       </tr>
       {% endfor %}
     </table>
-    <hr>
     <section class="text">
       {% for fragment in fragments %}
       {% if fragment.type == 'keyword' %}

@@ -123,6 +123,10 @@ def serialize_content_to_xml(block, root):
     title = etree.SubElement(root, 'title')
     title.text = unicode(block.title)
 
+    # set prompt
+    prompt = etree.SubElement(root, 'prompt')
+    prompt.text = unicode(block.prompt)
+
     # set categories
     categories_root = etree.SubElement(root, 'categories')
     for category_dict in block.categories:
@@ -184,6 +188,13 @@ def update_from_xml(block, root):
 
     title = _safe_get_text(title_el)
 
+    # retrieve prompt
+    prompt_el = root.find('prompt')
+    if prompt_el is None:
+        raise UpdateFromXmlError("XML content must contain a 'prompt' element.")
+
+    prompt = _safe_get_text(prompt_el)
+
     # retrieve categories
     categories_el = root.find('categories')
     if categories_el is None:
@@ -199,6 +210,7 @@ def update_from_xml(block, root):
     fragments = _parse_text_xml(root.xpath('/taggedtext/text/node()'))
 
     block.title = title
+    block.prompt = prompt
     block.categories = categories
     block.fragments = fragments
 

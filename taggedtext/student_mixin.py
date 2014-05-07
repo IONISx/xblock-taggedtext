@@ -3,15 +3,21 @@ Student view for TaggedText XBlock
 """
 
 from copy import deepcopy
+from xblock.fields import Scope, Dict
 from xblock.fragment import Fragment
 
 from taggedtext.utils import load_resource, render_template
 
 
-class LmsMixin(object):
+class StudentMixin(object):
     """
     Student view for Tagged Text XBlock
     """
+
+    student_answer = Dict(
+        scope=Scope.user_state,
+        help="Student answers"
+    )
 
     def student_view(self, context=None):
         """
@@ -27,7 +33,9 @@ class LmsMixin(object):
 
         data = {
             'fragments': fragments,
-            'categories': self.categories
+            'categories': self.categories,
+            'title': self.title,
+            'prompt': self.prompt
         }
 
         template = render_template('templates/student.html', data)

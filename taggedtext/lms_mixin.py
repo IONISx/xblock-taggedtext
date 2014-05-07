@@ -33,4 +33,6 @@ class LmsMixin(object):
         template = render_template('templates/student.html', data)
         frag = Fragment(template)
         frag.add_css(load_resource('static/style/xblock-taggedtext.min.css'))
+        frag.add_javascript(load_resource('static/script/xblock-taggedtext.min.js'))
+        frag.initialize_js('TaggedTextXBlockStudent');
         return frag

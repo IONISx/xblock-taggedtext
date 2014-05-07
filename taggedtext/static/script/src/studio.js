@@ -3,9 +3,10 @@ TaggedText.StudioView = function () {
 };
 
 TaggedText.StudioView.prototype = {
-    constructor: function (server, runtime) {
+    constructor: function (server, runtime, element) {
         this.runtime = runtime;
         this.server = server;
+        this.element = $(element);
         this.xmlEditor = null;
     },
 
@@ -55,25 +56,26 @@ TaggedText.StudioView.prototype = {
         });
     },
 
-    render: function (element) {
-        element = $(element);
+    setupEvents: function () {
+        var that = this;
 
+        this.element.find('.taggedtext-save-button').click(function () {
+            that.save();
+        });
+        this.element.find('.taggedtext-cancel-button').click(function () {
+            that.cancel();
+        });
+    },
+
+    render: function () {
         this.xmlEditor = CodeMirror.fromTextArea(
-            element.find('.taggedtext-editor').get(0), {
+            this.element.find('.taggedtext-editor').get(0), {
                 mode: 'xml',
                 lineNumbers: true,
                 lineWrapping: true
             }
         );
-
-        var that = this;
-        element.find('.taggedtext-save-button').click(function () {
-            that.save();
-        });
-        element.find('.taggedtext-cancel-button').click(function () {
-            that.cancel();
-        });
-
+        this.setupEvents();
         this.load();
     }
 };

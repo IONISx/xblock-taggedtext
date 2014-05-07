@@ -71,6 +71,7 @@ module.exports = function (grunt) {
                         '<%= c.static %>/script/src/main.js',
                         '<%= c.static %>/script/src/server.js',
                         '<%= c.static %>/script/src/studio.js',
+                        '<%= c.static %>/script/src/student.js',
                         '<%= c.static %>/script/src/xblock.js'
                     ]
                 }

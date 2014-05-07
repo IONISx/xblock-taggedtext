@@ -10,6 +10,7 @@ TaggedText.StudentView.prototype = {
     },
 
     setupEvents: function () {
+        var that = this;
         var keywords = this.element.find('.keyword');
 
         keywords.click(function (e) {
@@ -18,6 +19,23 @@ TaggedText.StudentView.prototype = {
                 .find('.dropdown')
                 .toggle();
             keywords.not(this).removeClass('active').find('.dropdown').hide();
+        });
+
+        this.element.find('.dropdown > li').click(function (e) {
+            var el = $(this);
+            var color = el.find('span');
+            var keyword = el.closest('.keyword');
+
+            that.server.selectCategory({
+                keyword: keyword.data('position'),
+                category: el.data('id')
+            }).done(function () {
+                keyword.css({
+                    'background-color': color.css('background-color')
+                });
+            }).fail(function (/*msg*/) {
+                // TODO: show error
+            });
         });
     },
 

@@ -12,6 +12,31 @@ TaggedText.Server.prototype = {
         return this.runtime.handlerUrl(this.element, handler);
     },
 
+    selectCategory: function (options) {
+        var url = this.url('select_category');
+        var payload = JSON.stringify({
+            keyword: options.keyword,
+            category: options.category
+        });
+
+        return $.Deferred(function (defer) {
+            $.ajax({
+                type: 'POST',
+                url: url,
+                data: payload
+            }).done(function (data) {
+                if (data.success) {
+                    defer.resolve();
+                }
+                else {
+                    defer.rejectWith(this, [data.msg]);
+                }
+            }).fail(function () {
+                defer.rejectWith(this, ['Could not save the selected category']);
+            });
+        }).promise();
+    },
+
     updateXml: function (xml) {
         var url = this.url('update_xml');
         var payload = JSON.stringify({

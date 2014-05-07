@@ -3,6 +3,7 @@ Student view for TaggedText XBlock
 """
 
 from copy import deepcopy
+from xblock.core import XBlock
 from xblock.fields import Scope, Dict
 from xblock.fragment import Fragment
 
@@ -55,3 +56,14 @@ class StudentMixin(object):
         frag.add_javascript(load_resource('static/script/xblock-taggedtext.min.js'))
         frag.initialize_js('TaggedTextXBlockStudent');
         return frag
+
+    @XBlock.json_handler
+    def select_category(self, data, suffix=''):
+        keyword_text = unicode(data.get('keyword'))
+        category_text = data.get('category')
+
+        category = next((c for c in self.categories if c['id'] == category_text), None)
+        if category:
+            self.student_answer[keyword_text] = category['id']
+            return {'success': True, 'data': data}
+        return {'success': False, 'data': data, 'msg': "No such category '{}'".format(category)}

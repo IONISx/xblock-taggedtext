@@ -58,14 +58,6 @@ class TaggedTextXBlock(
 
 
     @XBlock.json_handler
-    def select_category(self, data, suffix=''):
-        category = data.get('value')
-        keyword = str(data.get('id'))
-        if category in self.categories:
-            self.student_answer[keyword] = category
-        return data
-
-    @XBlock.json_handler
     def check(self, data, suffix=''):
         pass
 

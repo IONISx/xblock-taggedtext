@@ -4,6 +4,7 @@ Settings for TaggedText XBlock
 
 from xblock.fields import String, Float, Scope
 
+
 class SettingsMixin(object):
     """
     Settings for TaggedText XBlock
@@ -32,7 +33,6 @@ class SettingsMixin(object):
     @property
     def has_score(self):
         return True
-
 
     def max_score(self):
         return sum(

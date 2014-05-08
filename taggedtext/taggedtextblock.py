@@ -1,11 +1,5 @@
-import json
-
-from jinja2 import Template
-from lxml import etree
-
 from xblock.core import XBlock
-from xblock.fields import Scope, List, Dict, String, Integer
-from xblock.fragment import Fragment
+from xblock.fields import Scope, List, String, Integer
 
 import taggedtext.defaults as defaults
 from taggedtext.settings_mixin import SettingsMixin
@@ -15,10 +9,10 @@ from taggedtext.xml import update_from_xml
 
 
 class TaggedTextXBlock(
-    XBlock,
-    SettingsMixin,
-    StudentMixin,
-    StudioMixin):
+        XBlock,
+        SettingsMixin,
+        StudentMixin,
+        StudioMixin):
 
     title = String(
         default=defaults.TITLE,
@@ -59,7 +53,6 @@ class TaggedTextXBlock(
 
         return update_from_xml(block, node)
 
-
     @XBlock.json_handler
     def check(self, data, suffix=''):
         pass
@@ -91,4 +84,4 @@ class TaggedTextXBlock(
        pharetra.<keyword category="en">nothing</keyword>
     </text>
   </taggedtext>
-</vertical_demo>""") ]
+</vertical_demo>""")]

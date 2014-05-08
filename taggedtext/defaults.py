@@ -6,7 +6,9 @@ Default data initializations for the block
 
 TITLE = "Tagged text"
 
-PROMPT = "For each of the highlighted words, select the category to which they belong."
+PROMPT = """
+For each of the highlighted words, select the category to which they belong.
+"""
 
 SCORE = 1
 

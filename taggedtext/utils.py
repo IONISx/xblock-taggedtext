@@ -5,12 +5,14 @@ Utils for the Tagged Text XBlock
 import pkg_resources
 from django.template import Context, Template
 
+
 def load_resource(resource_path):
     """
     Gets the content of a resource
     """
     resource_content = pkg_resources.resource_string(__name__, resource_path)
     return resource_content.decode("utf8")
+
 
 def render_template(template_path, context={}):
     """

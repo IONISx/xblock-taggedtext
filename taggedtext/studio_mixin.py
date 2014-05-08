@@ -21,9 +21,8 @@ class StudioMixin(object):
         template = render_template('templates/studio.html')
         frag = Fragment(template)
         frag.add_javascript(load_resource('static/script/xblock-taggedtext.min.js'))
-        frag.initialize_js('TaggedTextXBlockStudio');
+        frag.initialize_js('TaggedTextXBlockStudio')
         return frag
-
 
     @XBlock.json_handler
     def update_xml(self, data, suffix=''):
@@ -45,7 +44,6 @@ class StudioMixin(object):
 
         else:
             return {'success': False, 'msg': 'Must specify "xml" in request JSON dict.'}
-
 
     @XBlock.json_handler
     def xml(self, data, suffix=''):

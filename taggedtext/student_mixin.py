@@ -33,7 +33,7 @@ class StudentMixin(object):
         categories_count = len(categories)
 
         for i, c in enumerate(categories):
-            if not 'color' in c:
+            if 'color' not in c:
                 c['color'] = self.generate_color(i, categories_count)
 
         fragments = deepcopy(self.fragments)
@@ -55,7 +55,7 @@ class StudentMixin(object):
         frag = Fragment(template)
         frag.add_css(load_resource('static/style/xblock-taggedtext.min.css'))
         frag.add_javascript(load_resource('static/script/xblock-taggedtext.min.js'))
-        frag.initialize_js('TaggedTextXBlockStudent');
+        frag.initialize_js('TaggedTextXBlockStudent')
         return frag
 
     @XBlock.json_handler

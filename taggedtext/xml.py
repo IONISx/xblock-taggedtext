@@ -93,7 +93,7 @@ def _parse_text_xml(nodes):
     keywords_count = 0
 
     for item in nodes:
-        if isinstance(item, (str,unicode)):
+        if isinstance(item, (str, unicode)):
             fragments_list.append({
                 'type': 'text',
                 'text': unicode(item)
@@ -112,6 +112,7 @@ def _parse_text_xml(nodes):
                 })
 
     return fragments_list
+
 
 def serialize_content_to_xml(block, root):
     """
@@ -140,7 +141,6 @@ def serialize_content_to_xml(block, root):
 
         if 'description' in category_dict:
             category.set('description', unicode(category_dict['description']))
-
 
     # set text
     text_root = etree.SubElement(root, 'text')

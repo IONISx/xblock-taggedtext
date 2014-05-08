@@ -4,6 +4,7 @@ module.exports = function (grunt) {
     require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
 
     var config = {
+        'code': 'taggedtext',
         'static': 'taggedtext/static'
     };
 
@@ -61,6 +62,20 @@ module.exports = function (grunt) {
 
         // ## //
 
+        flake8: {
+            python: {
+                options: {
+                    maxLineLength: 120,
+                    hangClosing: false
+                },
+                src: [
+                    '<%= c.code %>/**/*.py'
+                ]
+            }
+        },
+
+        // ## //
+
         uglify: {
             script: {
                 options: {
@@ -103,7 +118,7 @@ module.exports = function (grunt) {
     });
 
     grunt.registerTask('build', [
-        'jshint:browser',
+        'jshint',
         'uglify',
         'less',
         'cssmin'
@@ -119,6 +134,7 @@ module.exports = function (grunt) {
     });
 
     grunt.registerTask('test', [
+        'flake8',
         'build'
     ]);
 };

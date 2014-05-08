@@ -7,6 +7,7 @@ PACKAGES = [
     'taggedtext'
 ]
 
+
 def package_data(pkg, root):
     """Generic function to find package_data for `pkg` under `root`."""
     data = []

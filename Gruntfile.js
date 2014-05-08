@@ -57,6 +57,16 @@ module.exports = function (grunt) {
                         'TaggedText': true
                     }
                 }
+            },
+            node: {
+                files: {
+                    src: [
+                        'Gruntfile.js'
+                    ]
+                },
+                options: {
+                    'node': true
+                }
             }
         },
 
@@ -69,6 +79,7 @@ module.exports = function (grunt) {
                     hangClosing: false
                 },
                 src: [
+                    'setup.py',
                     '<%= c.code %>/**/*.py'
                 ]
             }

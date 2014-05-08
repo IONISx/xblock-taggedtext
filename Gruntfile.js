@@ -129,7 +129,6 @@ module.exports = function (grunt) {
     });
 
     grunt.registerTask('build', [
-        'jshint',
         'uglify',
         'less',
         'cssmin'
@@ -145,6 +144,7 @@ module.exports = function (grunt) {
     });
 
     grunt.registerTask('test', [
+        'jshint',
         'flake8',
         'build'
     ]);

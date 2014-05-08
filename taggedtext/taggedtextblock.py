@@ -7,6 +7,7 @@ from xblock.core import XBlock
 from xblock.fields import Scope, List, Dict, String, Integer
 from xblock.fragment import Fragment
 
+import taggedtext.defaults as defaults
 from taggedtext.settings_mixin import SettingsMixin
 from taggedtext.student_mixin import StudentMixin
 from taggedtext.studio_mixin import StudioMixin
@@ -20,29 +21,31 @@ class TaggedTextXBlock(
     StudioMixin):
 
     title = String(
-        default="",
+        default=defaults.TITLE,
         scope=Scope.content,
         help="Title of the block (plain text)"
     )
 
     prompt = String(
-        default="",
+        default=defaults.PROMPT,
         scope=Scope.content,
         help="Prompt of the block (plain text)"
     )
 
     default_score = Integer(
-        default=1,
+        default=defaults.SCORE,
         scope=Scope.content,
         help="Default score for a point"
     )
 
     categories = List(
+        default=defaults.CATEGORIES,
         scope=Scope.content,
         help="Categories"
     )
 
     fragments = List(
+        default=defaults.FRAGMENTS,
         scope=Scope.content,
         help="Fragments"
     )

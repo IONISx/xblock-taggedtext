@@ -151,8 +151,8 @@ def serialize_content_to_xml(block, root):
             keyword.set('category', unicode(fragment_dict['category']))
             keyword.text = unicode(fragment_dict['text'])
 
-            if 'score' in category_dict:
-                category.set('score', int(fragment_dict['score']))
+            if 'score' in fragment_dict:
+                keyword.set('score', unicode(fragment_dict['score']))
 
         elif fragment_dict['type'] == 'text':
             children = text_root.getchildren()

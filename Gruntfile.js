@@ -117,4 +117,8 @@ module.exports = function (grunt) {
             'watch'
         ]);
     });
+
+    grunt.registerTask('test', [
+        'build'
+    ]);
 };

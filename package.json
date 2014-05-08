@@ -5,6 +5,9 @@
     "type": "git",
     "url": "git://github.com/IONISx/xblock-taggedtext.git"
   },
+  "scripts": {
+    "test": "grunt test"
+  },
   "bugs": {
     "url": "https://github.com/IONISx/xblock-taggedtext/issues"
   },

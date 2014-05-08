@@ -13,7 +13,7 @@ TaggedText.StudentView.prototype = {
         var that = this;
         var keywords = this.element.find('.keyword');
 
-        keywords.click(function (e) {
+        keywords.click(function () {
             $(this)
                 .toggleClass('active')
                 .find('.dropdown')
@@ -21,7 +21,7 @@ TaggedText.StudentView.prototype = {
             keywords.not(this).removeClass('active').find('.dropdown').hide();
         });
 
-        this.element.find('.dropdown > li').click(function (e) {
+        this.element.find('.dropdown > li').click(function () {
             var el = $(this);
             var color = el.find('span');
             var keyword = el.closest('.keyword');

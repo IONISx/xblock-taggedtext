@@ -33,7 +33,10 @@ TaggedText.StudentView.prototype = {
                 keyword.css({
                     'background-color': color.css('background-color')
                 });
-                that.element.find('.category-' + data.category + ' .count').text(data.count);
+                for (var c in data.counts) {
+                    var el = that.element.find('.category-' + c + ' .count');
+                    el.text(data.counts[c]);
+                }
             }).fail(function (/*msg*/) {
                 // TODO: show error
             });

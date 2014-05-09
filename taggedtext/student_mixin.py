@@ -75,6 +75,9 @@ class StudentMixin(object):
         category = next((c for c in self.categories if c['id'] == category_text), None)
         if category:
             self.student_answer[keyword_text] = category['id']
-            data['count'] = len([v for v in self.student_answer.values() if v == category_text])
+            data['counts'] = {}
+            for i, c in enumerate(self.categories):
+                data['counts'][c['id']] = len([v for v in self.student_answer.values() if v == c['id']])
             return {'success': True, 'data': data}
+
         return {'success': False, 'data': data, 'msg': "No such category '{}'".format(category)}

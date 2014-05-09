@@ -47,6 +47,9 @@
     </section>
     <section class="action">
       <input class="check" type="button" data-checking="Checking..." value="Valider">
+      {% if attempts_allowed %}
+      <div class="submission_feedback">Vous avez utilisé {{ attempts_used }} essais sur {{ attempts_allowed }}</div>
+      {% endif %}
     </section>
   </div>
 </div>

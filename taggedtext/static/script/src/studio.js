@@ -59,17 +59,17 @@ TaggedText.StudioView.prototype = {
     setupEvents: function () {
         var that = this;
 
-        this.element.find('.taggedtext-save-button').click(function () {
+        this.element.on('click', '.save-button', function () {
             that.save();
         });
-        this.element.find('.taggedtext-cancel-button').click(function () {
+        this.element.on('click', '.cancel-button', function () {
             that.cancel();
         });
     },
 
     render: function () {
         this.xmlEditor = CodeMirror.fromTextArea(
-            this.element.find('.taggedtext-editor').get(0), {
+            this.element.find('.xml-editor').get(0), {
                 mode: 'xml',
                 lineNumbers: true,
                 lineWrapping: true

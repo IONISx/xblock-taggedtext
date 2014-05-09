@@ -4,7 +4,7 @@ Student view for TaggedText XBlock
 
 from copy import deepcopy
 from xblock.core import XBlock
-from xblock.fields import Scope, Dict
+from xblock.fields import Scope, Dict, Integer
 from xblock.fragment import Fragment
 
 from taggedtext.utils import load_resource, render_template
@@ -18,6 +18,12 @@ class StudentMixin(object):
     student_answer = Dict(
         scope=Scope.user_state,
         help="Student answers"
+    )
+
+    attempts = Integer(
+        default=0,
+        scope=Scope.user_state,
+        help="Number of attempts taken by the student on this problem"
     )
 
     def generate_color(self, pos, count):
@@ -48,7 +54,9 @@ class StudentMixin(object):
             'fragments': fragments,
             'categories': categories,
             'title': self.title,
-            'prompt': self.prompt
+            'prompt': self.prompt,
+            'attempts_used': self.attempts,
+            'attempts_allowed': self.max_attempts
         }
 
         template = render_template('templates/student.html', data)

@@ -2,6 +2,8 @@
 Studio editing view for TaggedText XBlock
 """
 
+import json
+
 from xblock.core import XBlock
 from xblock.fragment import Fragment
 
@@ -18,7 +20,12 @@ class StudioMixin(object):
         """
         Method to render the Tagged Text XBlock in Studio
         """
-        template = render_template('templates/studio.html')
+
+        data = {
+            'metadata_fields': json.dumps(self.editable_metadata_fields)
+        }
+
+        template = render_template('templates/studio.html', data)
         frag = Fragment(template)
         frag.add_javascript(load_resource('static/script/xblock-taggedtext.min.js'))
         frag.initialize_js('TaggedTextXBlockStudio')

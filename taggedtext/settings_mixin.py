@@ -55,10 +55,10 @@ class SettingsMixin(object):
 
     @property
     def non_editable_metadata_fields(self):
-     """
-     Return the list of fields that should not be editable in Studio.
-     """
-     return [XBlock.tags, XBlock.name]
+        """
+        Return the list of fields that should not be editable in Studio.
+        """
+        return [XBlock.tags, XBlock.name]
 
     @property
     def editable_metadata_fields(self):

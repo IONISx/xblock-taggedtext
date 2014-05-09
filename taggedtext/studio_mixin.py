@@ -32,25 +32,47 @@ class StudioMixin(object):
         return frag
 
     @XBlock.json_handler
-    def update_xml(self, data, suffix=''):
+    def edit(self, data, suffix=''):
         """
         Update the XBlock's XML.
         """
-        if 'xml' in data:
-            try:
-                update_from_xml_str(self, data['xml'])
-
-            except ValidationError as ex:
-                return {'success': False, 'msg': 'Validation error: {error}'.format(error=ex.message)}
-
-            except UpdateFromXmlError as ex:
-                return {'success': False, 'msg': 'An error occurred while saving: {error}'.format(error=ex.message)}
-
-            else:
-                return {'success': True, 'msg': 'Successfully updated TaggedText XBlock'}
-
-        else:
+        if 'xml' not in data:
             return {'success': False, 'msg': 'Must specify "xml" in request JSON dict.'}
+        try:
+            update_from_xml_str(self, data['xml'])
+
+        except ValidationError as ex:
+            return {'success': False, 'msg': 'Validation error: {error}'.format(error=ex.message)}
+
+        except UpdateFromXmlError as ex:
+            return {'success': False, 'msg': 'An error occurred while saving: {error}'.format(error=ex.message)}
+
+        if 'metadata' not in data:
+            return {'success': False, 'msg': 'Must specify "metadata" in request JSON dict.'}
+
+        editable_fields = self.editable_metadata_fields
+
+        for metadata_key, metadata in data['metadata'].items():
+            if metadata_key not in self.fields:
+                return {'success': False, 'msg': 'Field "{name}" does not exist'.format(name=metadata_key)}
+
+            if metadata_key not in editable_fields:
+                return {'success': False, 'msg': 'Field "{name}" is not editable'.format(name=metadata_key)}
+
+            value = metadata.get('value')
+            field = self.fields[metadata_key]
+
+            if value is None:
+                field.delete_from(self)
+            else:
+                try:
+                    value = field.from_json(value)
+                except ValueError:
+                    return {'success': False, 'msg': 'Invalid data for field {name}'.format(name=metadata_key)}
+
+                field.write_to(self, value)
+
+        return {'success': True, 'msg': 'Successfully updated TaggedText XBlock'}
 
     @XBlock.json_handler
     def xml(self, data, suffix=''):

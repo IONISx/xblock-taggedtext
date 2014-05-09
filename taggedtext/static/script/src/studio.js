@@ -18,8 +18,7 @@ TaggedText.StudioView.prototype = {
                 that.xmlEditor.setValue(data);
             }).fail(function (msg) {
                 that.showError(msg);
-            }
-        );
+            });
     },
 
     save: function () {
@@ -28,19 +27,31 @@ TaggedText.StudioView.prototype = {
             return;
         }
 
-       var xml = this.xmlEditor.getValue();
+        var xml = this.xmlEditor.getValue();
+
+        var settings = this.element.find('#settings-tab');
+        var metadata = settings.data('metadata');
+
+        this.element.find('.metadata_entry').each(function () {
+            var input = $(this).find('.setting-input');
+            metadata[input.data('field-name')].value = input.val();
+        });
 
         this.runtime.notify('save', {
             state: 'start'
         });
 
         var that = this;
-        this.server.updateXml(xml).done(function() {
+        this.server.edit({
+            metadata: metadata,
+            xml: xml
+        }).done(function() {
             that.runtime.notify('save', {
                 state: 'end'
             });
 
             that.load();
+            settings.data('metadata', metadata);
         }).fail(function (msg) {
             that.showError(msg);
         });

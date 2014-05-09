@@ -37,11 +37,9 @@ TaggedText.Server.prototype = {
         }).promise();
     },
 
-    updateXml: function (xml) {
-        var url = this.url('update_xml');
-        var payload = JSON.stringify({
-            xml: xml
-        });
+    edit: function (data) {
+        var url = this.url('edit');
+        var payload = JSON.stringify(data);
 
         return $.Deferred(function (defer) {
             $.ajax({

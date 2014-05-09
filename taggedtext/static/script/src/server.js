@@ -26,7 +26,7 @@ TaggedText.Server.prototype = {
                 data: payload
             }).done(function (data) {
                 if (data.success) {
-                    defer.resolve();
+                    defer.resolve(data.data);
                 }
                 else {
                     defer.rejectWith(this, [data.msg]);

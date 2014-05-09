@@ -39,6 +39,7 @@ class StudentMixin(object):
         categories_count = len(categories)
 
         for i, c in enumerate(categories):
+            c['count'] = len([v for v in self.student_answer.values() if v == c['id']])
             if 'color' not in c:
                 c['color'] = self.generate_color(i, categories_count)
 
@@ -74,5 +75,6 @@ class StudentMixin(object):
         category = next((c for c in self.categories if c['id'] == category_text), None)
         if category:
             self.student_answer[keyword_text] = category['id']
+            data['count'] = len([v for v in self.student_answer.values() if v == category_text])
             return {'success': True, 'data': data}
         return {'success': False, 'data': data, 'msg': "No such category '{}'".format(category)}

@@ -9,7 +9,7 @@
 
     <table class="categories">
       {% for category in categories %}
-      <tr>
+      <tr class="category-{{ category.id }}">
         <td class="color">
           <span style="background-color: {{ category.color }};"></span>
         </td>
@@ -18,6 +18,9 @@
         </td>
         <td class="description">
           {{ category.description }}
+        </td>
+        <td class="count">
+          {{ category.count }}
         </td>
       </tr>
       {% empty %}

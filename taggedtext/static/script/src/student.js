@@ -29,10 +29,11 @@ TaggedText.StudentView.prototype = {
             that.server.selectCategory({
                 keyword: keyword.data('position'),
                 category: el.data('id')
-            }).done(function () {
+            }).done(function (data) {
                 keyword.css({
                     'background-color': color.css('background-color')
                 });
+                that.element.find('.category-' + data.category + ' .count').text(data.count);
             }).fail(function (/*msg*/) {
                 // TODO: show error
             });

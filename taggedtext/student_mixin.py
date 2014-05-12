@@ -26,6 +26,9 @@ class StudentMixin(object):
         help="Number of attempts taken by the student on this problem"
     )
 
+    def get_student_answer(self, keyword):
+        return self.student_answer.get(str(keyword['position']))
+
     def generate_color(self, pos, count):
         return 'hsl({}, 62%, 82%)'.format((pos) * (255 / count))
 
@@ -46,7 +49,7 @@ class StudentMixin(object):
         fragments = deepcopy(self.fragments)
 
         for f in [f for f in fragments if f['type'] == 'keyword']:
-            answer = self.student_answer.get(str(f['position']))
+            answer = self.get_student_answer(f)
             if answer:
                 f['answer'] = answer
                 f['color'] = next((c for c in categories if c['id'] == answer))['color']

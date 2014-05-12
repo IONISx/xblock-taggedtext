@@ -2,6 +2,7 @@ from xblock.core import XBlock
 from xblock.fields import Scope, List, String, Integer
 
 import taggedtext.defaults as defaults
+from taggedtext.grading_mixin import GradingMixin
 from taggedtext.settings_mixin import SettingsMixin
 from taggedtext.student_mixin import StudentMixin
 from taggedtext.studio_mixin import StudioMixin
@@ -10,6 +11,7 @@ from taggedtext.xml import update_from_xml
 
 class TaggedTextXBlock(
         XBlock,
+        GradingMixin,
         SettingsMixin,
         StudentMixin,
         StudioMixin):
@@ -52,10 +54,6 @@ class TaggedTextXBlock(
         block = runtime.construct_xblock_from_class(cls, keys)
 
         return update_from_xml(block, node)
-
-    @XBlock.json_handler
-    def check(self, data, suffix=''):
-        pass
 
     @staticmethod
     def workbench_scenarios():

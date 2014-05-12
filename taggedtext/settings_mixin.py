@@ -49,7 +49,7 @@ class SettingsMixin(object):
 
     def max_score(self):
         return sum(
-            fragment['score'] if 'score' in fragment else self.default_score
+            self.get_keyword_score(fragment)
             for fragment in self.fragments if fragment['type'] == 'keyword'
         )
 

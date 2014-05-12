@@ -37,6 +37,28 @@ TaggedText.Server.prototype = {
         }).promise();
     },
 
+    check: function () {
+        var url = this.url('check');
+        var payload = JSON.stringify(null);
+
+        return $.Deferred(function (defer) {
+            $.ajax({
+                type: 'POST',
+                url: url,
+                data: payload
+            }).done(function (data) {
+                if (data.success) {
+                    defer.resolve();
+                }
+                else {
+                    defer.rejectWith(this, [data.msg]);
+                }
+            }).fail(function () {
+                defer.rejectWith(this, ['Could not check problem']);
+            });
+        }).promise();
+    },
+
     edit: function (data) {
         var url = this.url('edit');
         var payload = JSON.stringify(data);

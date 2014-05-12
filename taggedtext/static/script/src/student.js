@@ -41,6 +41,14 @@ TaggedText.StudentView.prototype = {
                 // TODO: show error
             });
         });
+
+        this.element.find('.action .check').click(function () {
+            that.server.check().done(function () {
+                // TODO: handle correctness
+            }).fail(function () {
+                // TODO: handle error
+            });
+        });
     },
 
     render: function () {

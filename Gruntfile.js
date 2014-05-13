@@ -44,11 +44,6 @@ module.exports = function (grunt) {
                 'eqnull': true
             },
             browser: {
-                files: {
-                    src: [
-                        '<%= c.static %>/script/src/**/*.js'
-                    ]
-                },
                 options: {
                     'browser': true,
                     'jquery': true,
@@ -56,16 +51,21 @@ module.exports = function (grunt) {
                         'CodeMirror': true,
                         'TaggedText': true
                     }
+                },
+                files: {
+                    src: [
+                        '<%= c.static %>/script/src/**/*.js'
+                    ]
                 }
             },
             node: {
+                options: {
+                    'node': true
+                },
                 files: {
                     src: [
                         'Gruntfile.js'
                     ]
-                },
-                options: {
-                    'node': true
                 }
             }
         },

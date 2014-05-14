@@ -26,7 +26,7 @@ TaggedText.Server.prototype = {
                 data: payload
             }).done(function (data) {
                 if (data.success) {
-                    defer.resolve(data.data);
+                    defer.resolve(data);
                 }
                 else {
                     defer.rejectWith(this, [data.msg]);
@@ -48,7 +48,7 @@ TaggedText.Server.prototype = {
                 data: payload
             }).done(function (data) {
                 if (data.success) {
-                    defer.resolve();
+                    defer.resolve(data);
                 }
                 else {
                     defer.rejectWith(this, [data.msg]);

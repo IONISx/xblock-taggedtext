@@ -21,6 +21,7 @@ class SettingsMixin(object):
     )
 
     max_attempts = Integer(
+        default=None,
         display_name="Maximum Attempts",
         values={"min": 0},
         scope=Scope.settings,

@@ -16,7 +16,7 @@ def package_data(pkg, root):
 
 setup(
     name='taggedtext-xblock',
-    version='0.0.1',
+    version='0.1.0',
     description='Tagged Text XBlock',
     author='IONISx',
     packages=['taggedtext'],

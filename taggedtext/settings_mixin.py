@@ -45,16 +45,6 @@ class SettingsMixin(object):
         return 'problem'
 
     @property
-    def has_score(self):
-        return True
-
-    def max_score(self):
-        return sum(
-            self.get_keyword_score(fragment)
-            for fragment in self.fragments if fragment['type'] == 'keyword'
-        )
-
-    @property
     def non_editable_metadata_fields(self):
         """
         Return the list of fields that should not be editable in Studio.

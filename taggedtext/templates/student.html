@@ -4,56 +4,57 @@
 <div class="wrapper taggedtext-wrapper">
   <div class="taggedtext" data-state="{{ state }}">
     <h2>{{ title }}</h2>
-
-    <p class="prompt">{{ prompt }}</p>
-
-    <table class="categories">
-      {% for category in categories %}
-      <tr class="category" data-id="{{ category.id }}">
-        <td class="color">
-          <span style="background-color: {{ category.color }};"></span>
-        </td>
-        <td class="name">
-          {{ category.name }}
-        </td>
-        <td class="description">
-          {{ category.description }}
-        </td>
-        <td class="count">
-        </td>
-      </tr>
-      {% empty %}
-      <tr>
-        <td>No categories defined</td>
-      </tr>
-      {% endfor %}
-    </table>
-    <section class="text">
-      {% for fragment in fragments %}
-      {% if fragment.type == 'keyword' %}
-      <div class="keyword" data-position="{{ fragment.position }}" data-color="{{ fragment.color }}">
+    <div class="problem-progress"></div>
+    <div class="problem">
+      <p class="prompt">{{ prompt }}</p>
+      <table class="categories">
+        {% for category in categories %}
+        <tr class="category" data-id="{{ category.id }}">
+          <td class="color">
+            <span style="background-color: {{ category.color }};"></span>
+          </td>
+          <td class="name">
+            {{ category.name }}
+          </td>
+          <td class="description">
+            {{ category.description }}
+          </td>
+          <td class="count">
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td>No categories defined</td>
+        </tr>
+        {% endfor %}
+      </table>
+      <section class="text">
+        {% for fragment in fragments %}
+        {% if fragment.type == 'keyword' %}
+        <div class="keyword" data-position="{{ fragment.position }}" data-color="{{ fragment.color }}">
+          {{ fragment.text }}
+          <span class="status">
+            <i class="icon-caret-down"></i>
+          </span>
+          <ul class="dropdown">
+            {% for category in categories %}
+            <li data-id="{{ category.id }}">
+              <span class="color" style="background-color: {{ category.color }}"></span> {{ category.name }}
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+        {% else %}
         {{ fragment.text }}
-        <span class="status">
-          <i class="icon-caret-down"></i>
-        </span>
-        <ul class="dropdown">
-          {% for category in categories %}
-          <li data-id="{{ category.id }}">
-            <span class="color" style="background-color: {{ category.color }}"></span> {{ category.name }}
-          </li>
-          {% endfor %}
-        </ul>
-      </div>
-      {% else %}
-      {{ fragment.text }}
-      {% endif %}
-      {% endfor %}
-    </section>
-    <section class="action">
-      <input class="check" type="button" data-checking="Checking..." value="Valider">
-      <div class="submission_feedback">
-      </div>
-    </section>
+        {% endif %}
+        {% endfor %}
+      </section>
+      <section class="action">
+        <input class="check" type="button" data-checking="Checking..." value="Valider">
+        <div class="submission_feedback">
+        </div>
+      </section>
+    </div>
   </div>
 </div>
 

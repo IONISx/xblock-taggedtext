@@ -144,6 +144,19 @@ TaggedText.StudentView.prototype = {
         }
     },
 
+    _updateProgress: function (tab, progress) {
+        var prefix = 'progress-';
+        var classes = tab.attr('class').split(' ').filter(function(c) {
+            return c.lastIndexOf(prefix, 0) !== 0;
+        });
+        tab.attr('class', classes.join(' '));
+        tab.addClass(prefix + progress.status);
+    },
+
+    _updateScore: function (el, progress) {
+        el.text('(' + progress.detail + ' points)');
+    },
+
     refresh: function () {
         var that = this;
 
@@ -178,6 +191,11 @@ TaggedText.StudentView.prototype = {
         this.element.find('input.check').toggleClass('disabled', this.state.locked);
 
         this._displayAttemptsInfo(this.element.find('.submission_feedback'), this.state);
+
+        if (this.state.progress) {
+            this._updateProgress($('#sequence-list').find('a.active'), this.state.progress);
+            this._updateScore(this.element.find('.problem-progress'), this.state.progress);
+        }
     },
 
     render: function () {

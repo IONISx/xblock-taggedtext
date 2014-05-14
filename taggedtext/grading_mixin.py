@@ -5,6 +5,8 @@ Grading for TaggedText XBlock
 from xblock.core import XBlock
 from xblock.fields import Scope, List, Integer, Boolean
 
+from taggedtext.progress import Progress
+
 
 class GradingMixin(object):
     """
@@ -32,8 +34,34 @@ class GradingMixin(object):
     def problem_locked(self):
         return self.resolved or self.max_attempts is not None and self.attempts >= self.max_attempts
 
+    @property
+    def has_score(self):
+        return True
+
     def get_keyword_score(self, keyword):
         return keyword['score'] if 'score' in keyword else self.default_score
+
+    def get_score(self):
+        return sum(
+            self.get_keyword_score(f)
+            if self.student_answer.get(unicode(f['position'])) == f['category']
+            and unicode(f['position']) in self.graded_answers
+            else 0
+            for f in self.fragments if f['type'] == 'keyword'
+        )
+
+    def max_score(self):
+        return sum(
+            self.get_keyword_score(fragment)
+            for fragment in self.fragments if fragment['type'] == 'keyword'
+        )
+
+    def get_progress(self):
+        score = self.get_score()
+        max_score = self.max_score()
+        if max_score > 0:
+            return Progress(score, max_score)
+        return None
 
     def get_problem_state(self):
         answers_list = []
@@ -72,8 +100,15 @@ class GradingMixin(object):
             'attempts': self.attempts,
             'max_attempts': self.max_attempts,
             'counts': dict(),
-            'locked': self.problem_locked,
+            'locked': self.problem_locked
         }
+
+        progress = self.get_progress()
+        if progress:
+            data['progress'] = {
+                'status': Progress.to_js_status_str(progress),
+                'detail': Progress.to_js_detail_str(progress),
+            }
 
         for c in self.categories:
             data['counts'][c['id']] = len([v for v in self.student_answer.values() if v == c['id']])
@@ -100,7 +135,13 @@ class GradingMixin(object):
             for f in self.fragments if f['type'] == 'keyword'
         ))
 
+        state = self.get_problem_state()
+        self.runtime.publish(self, 'grade', {
+            'value': state.get('score', 0),
+            'max_value': state['max_score']
+        })
+
         return {
             'success': True,
-            'state': self.get_problem_state()
+            'state': state
         }

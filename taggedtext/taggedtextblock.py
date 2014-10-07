@@ -6,7 +6,7 @@ from taggedtext.grading_mixin import GradingMixin
 from taggedtext.settings_mixin import SettingsMixin
 from taggedtext.student_mixin import StudentMixin
 from taggedtext.studio_mixin import StudioMixin
-from taggedtext.xml import update_from_xml
+from taggedtext.xml_parsing import update_from_xml
 
 
 class TaggedTextXBlock(

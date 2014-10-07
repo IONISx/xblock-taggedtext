@@ -3,6 +3,7 @@ Serialize and deserialize TaggedText XBlock content to/from XML.
 """
 
 import lxml.etree as etree
+import xml.dom.minidom as md
 
 
 class UpdateFromXmlError(Exception):
@@ -23,8 +24,7 @@ def _safe_get_text(element):
     """
     Retrieve the text from the element, safely handling empty elements.
     """
-    return unicode(element.text) if element.text is not None else u""
-
+    return u' '.join(t.nodeValue for t in element.childNodes if t.nodeType == t.TEXT_NODE)
 
 def _parse_categories_xml(categories_root):
     """
@@ -32,84 +32,73 @@ def _parse_categories_xml(categories_root):
     """
     categories_list = []
 
-    for category in categories_root.findall('category'):
+    for category in categories_root.getElementsByTagName('category'):
         category_dict = dict()
 
         # retrieve id
-        if 'id' in category.attrib:
-            category_dict['id'] = unicode(category.get('id'))
+        if category.hasAttribute('id'):
+            category_dict['id'] = unicode(category.getAttribute('id'))
         else:
             raise UpdateFromXmlError("XML category definition must contain a 'id' attribute.")
 
-        # retrieve name
-        if category.text:
-            category_dict['name'] = _safe_get_text(category)
-        else:
-            raise UpdateFromXmlError("XML category definition must contain the name of the category.")
+        category_dict['name'] = _safe_get_text(category)
 
         # retrieve color (optional)
-        if 'color' in category.attrib:
-            category_dict['color'] = unicode(category.get('color'))
+        if category.hasAttribute('color'):
+            category_dict['color'] = unicode(category.getAttribute('color'))
 
         # retrieve description (optional)
-        if 'description' in category.attrib:
-            category_dict['description'] = unicode(category.get('description'))
+        if category.hasAttribute('description'):
+            category_dict['description'] = unicode(category.getAttribute('description'))
 
         categories_list.append(category_dict)
 
     return categories_list
 
 
-def _parse_keyword_xml(keyword_el):
+def _parse_keyword_xml(keyword):
     """
     Parse <keyword> element in the TaggedText XBlock's content XML.
     """
     keyword_dict = dict()
 
     # retrieve category
-    if 'category' in keyword_el.attrib:
-        keyword_dict['category'] = unicode(keyword_el.get('category'))
+    if keyword.hasAttribute('category'):
+        keyword_dict['category'] = unicode(keyword.getAttribute('category'))
     else:
         raise UpdateFromXmlError("XML keyword definition must contain a 'category' attribute.")
 
     # retrieve text
-    if keyword_el.text:
-        keyword_dict['text'] = _safe_get_text(keyword_el)
-    else:
-        raise UpdateFromXmlError("XML keyword definition must contain the text of the keyword.")
+    keyword_dict['text'] = _safe_get_text(keyword)
 
     # retrieve score (optional)
-    if 'score' in keyword_el.attrib:
-        keyword_dict['score'] = int(keyword_el.get('score'))
+    if keyword.hasAttribute('score'):
+        keyword_dict['score'] = int(keyword.getAttribute('score'))
 
     return keyword_dict
 
 
-def _parse_text_xml(nodes):
+def _parse_text_xml(text_root):
     """
     Parse <text> element in the TaggedText XBlock's content XML.
     """
     fragments_list = []
     keywords_count = 0
 
-    for item in nodes:
-        if isinstance(item, (str, unicode)):
+    for node in text_root.childNodes:
+        if node.nodeType == node.TEXT_NODE:
             fragments_list.append({
                 'type': 'text',
-                'text': unicode(item)
+                'text': unicode(node.nodeValue)
             })
-        elif isinstance(item, (etree._Element,)):
-            if item.tag == 'keyword':
-                keyword_dict = _parse_keyword_xml(item)
-                keyword_dict['type'] = 'keyword'
-                keyword_dict['position'] = keywords_count
-                fragments_list.append(keyword_dict)
-                keywords_count += 1
-            else:
-                fragments_list.append({
-                    'type': 'text',
-                    'text': etree.tostring(item, with_tail=False)
-                })
+        elif node.nodeName == 'keyword':
+            keyword_dict = _parse_keyword_xml(node)
+            keyword_dict.update({
+                'type': 'keyword',
+                'position': keywords_count
+            })
+            fragments_list.append(keyword_dict)
+            keywords_count += 1
 
     return fragments_list
 
@@ -178,36 +167,38 @@ def update_from_xml(block, root):
     """
     Update the TaggedText XBlock's content from an XML definition.
     """
-    if root.tag != 'taggedtext':
+    if root.tagName != 'taggedtext':
         raise UpdateFromXmlError("XML content must contain an 'taggedtext' root element.")
 
     # retrieve title
-    title_el = root.find('title')
-    if title_el is None:
+    title_el = root.getElementsByTagName('title')
+    if title_el is None or len(title_el) != 1:
         raise UpdateFromXmlError("XML content must contain a 'title' element.")
 
-    title = _safe_get_text(title_el)
+    title = _safe_get_text(title_el[0])
 
     # retrieve prompt
-    prompt_el = root.find('prompt')
-    if prompt_el is None:
+    prompt_el = root.getElementsByTagName('prompt')
+    if prompt_el is None or len(prompt_el) != 1:
         raise UpdateFromXmlError("XML content must contain a 'prompt' element.")
 
-    prompt = _safe_get_text(prompt_el)
+    prompt = _safe_get_text(prompt_el[0])
 
     # retrieve categories
-    categories_el = root.find('categories')
-    if categories_el is None:
+    categories_el = root.getElementsByTagName('categories')
+    if categories_el is None or len(categories_el) != 1:
         raise UpdateFromXmlError("XML content must contain a 'categories' element.")
 
-    categories = _parse_categories_xml(categories_el)
+    categories = _parse_categories_xml(categories_el[0])
 
     # parse text
-    text_el = root.find('text')
-    if text_el is None:
+    text_el = root.getElementsByTagName('text')
+    if text_el is None or len(text_el) != 1:
         raise UpdateFromXmlError("XML content must contain a 'text' element.")
 
-    fragments = _parse_text_xml(root.xpath('/taggedtext/text/node()'))
+    fragments = _parse_text_xml(text_el[0])
+
+    print fragments
 
     block.title = title
     block.prompt = prompt
@@ -222,8 +213,8 @@ def update_from_xml_str(block, xml, **kwargs):
     Update the TaggedText XBlock's content from an XML string definition.
     """
     try:
-        root = etree.fromstring(xml.encode('utf-8'))
-    except (ValueError, etree.ParseError):
+        dom = md.parseString(xml.encode('utf-8'))
+    except Exception:
         raise UpdateFromXmlError("An error occurred while parsing the XML content.")
 
-    return update_from_xml(block, root, **kwargs)
+    return update_from_xml(block, dom.documentElement, **kwargs)

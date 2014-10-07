@@ -8,7 +8,7 @@ from xblock.core import XBlock
 from xblock.fragment import Fragment
 
 from taggedtext.utils import load_resource, render_template
-from taggedtext.xml import update_from_xml_str, serialize_content, UpdateFromXmlError, ValidationError
+from taggedtext.xml_parsing import update_from_xml_str, serialize_content, UpdateFromXmlError, ValidationError
 
 
 class StudioMixin(object):

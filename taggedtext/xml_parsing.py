@@ -26,6 +26,7 @@ def _safe_get_text(element):
     """
     return u' '.join(t.nodeValue for t in element.childNodes if t.nodeType == t.TEXT_NODE)
 
+
 def _parse_categories_xml(categories_root):
     """
     Parse <categories> element in the TaggedText XBlock's content XML.

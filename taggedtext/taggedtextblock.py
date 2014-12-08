@@ -6,7 +6,7 @@ from taggedtext.grading_mixin import GradingMixin
 from taggedtext.settings_mixin import SettingsMixin
 from taggedtext.student_mixin import StudentMixin
 from taggedtext.studio_mixin import StudioMixin
-from taggedtext.xml_parsing import update_from_xml
+from taggedtext.xml_parsing import update_from_xml_node, serialize_content_to_xml
 
 
 class TaggedTextXBlock(
@@ -46,6 +46,12 @@ class TaggedTextXBlock(
         help="Fragments"
     )
 
+    def add_xml_to_node(self, node):
+        """
+        Serialize the XBlock to XML for exporting.
+        """
+        serialize_content_to_xml(self, node)
+
     @classmethod
     def parse_xml(cls, node, runtime, keys, id_generator):
         """
@@ -53,7 +59,7 @@ class TaggedTextXBlock(
         """
         block = runtime.construct_xblock_from_class(cls, keys)
 
-        return update_from_xml(block, node)
+        return update_from_xml_node(block, node)
 
     @staticmethod
     def workbench_scenarios():

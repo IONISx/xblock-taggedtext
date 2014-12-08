@@ -208,6 +208,7 @@ def update_from_xml(block, root):
 
     return block
 
+
 def update_from_xml_str(block, xml):
     """
     Update the TaggedText XBlock's content from an XML string definition.
@@ -218,6 +219,7 @@ def update_from_xml_str(block, xml):
         raise UpdateFromXmlError("An error occurred while parsing the XML content.")
 
     return update_from_xml(block, dom.documentElement)
+
 
 def update_from_xml_node(block, node):
     string = etree.tostring(node, encoding='utf-8')

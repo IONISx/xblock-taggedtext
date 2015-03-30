@@ -44,8 +44,8 @@ class GradingMixin(object):
     def get_score(self):
         return sum(
             self.get_keyword_score(f)
-            if self.student_answer.get(unicode(f['position'])) == f['category']
-            and unicode(f['position']) in self.graded_answers else 0
+            if self.student_answer.get(unicode(f['position'])) == f['category'] and
+            unicode(f['position']) in self.graded_answers else 0
             for f in self.fragments if f['type'] == 'keyword'
         )
 
